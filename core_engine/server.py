@@ -64,7 +64,13 @@ def execute_project_deployment(request_payload):
     asset_metadata = code_generation_result.get("attachments", [])
 
     # Step 1: Repository initialization
-    target_repo = initialize_project_repository(project_identifier, description=f"Auto-deployed solution: {request_payload['brief']}")
+    # Truncate description to 350 characters to comply with GitHub API
+    brief = request_payload.get('brief', '')
+    max_desc_len = 350
+    description = f"Auto-deployed solution: {brief}"
+    if len(description) > max_desc_len:
+        description = description[:max_desc_len]
+    target_repo = initialize_project_repository(project_identifier, description=description)
 
     # Step 2: Iteration-specific deployment strategy
     if current_iteration == 1:
