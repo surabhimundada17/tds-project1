@@ -14,9 +14,10 @@ from core_engine.repository_manager import commit_binary_content
 load_dotenv()
 PRIVATE_ACCESS_KEY = os.getenv("USER_SECRET")
 GITHUB_OWNER = os.getenv("GITHUB_USERNAME")
+# Use /tmp for serverless environments like Vercel
 TASK_CACHE_PATH = "/tmp/deployed_projects.json"
 
-app = FastAPI()
+app = FastAPI(title="Smart Deploy Engine", description="AI-powered deployment system")
 
 # === Task Cache Management System ===
 def retrieve_completed_tasks():
